@@ -1,0 +1,3 @@
+variant,seed,mean_reward,std_reward,success_rate,mean_length,n_eval_episodes
+sparse,50,0.9499999999999998,1.1102230246251565e-16,1.0,6.0,20
+dense,50,1.8333333333333335,2.220446049250313e-16,1.0,6.0,20

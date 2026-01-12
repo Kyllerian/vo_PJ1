@@ -1,0 +1,21 @@
+{
+  "experiment": "exp1",
+  "variant": "SAC",
+  "seed": 43,
+  "env_id": "Pendulum-v1",
+  "total_timesteps": 60000,
+  "learning_rate": 0.0003,
+  "gamma": 0.99,
+  "n_envs": 1,
+  "policy_kwargs": {
+    "net_arch": [
+      256,
+      256
+    ],
+    "use_sde": false
+  },
+  "algo_kwargs": {
+    "buffer_size": 100000,
+    "batch_size": 256
+  }
+}

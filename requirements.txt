@@ -1,0 +1,10 @@
+gymnasium==0.29.1
+stable-baselines3==2.3.2
+torch==2.2.2
+numpy==1.26.4
+pandas==2.2.2
+matplotlib==3.8.4
+imageio==2.34.0
+imageio-ffmpeg==0.4.9
+tensorboard==2.16.2
+pygame==2.5.2

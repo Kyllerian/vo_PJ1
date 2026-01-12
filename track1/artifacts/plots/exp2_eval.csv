@@ -1,0 +1,3 @@
+experiment,variant,seed,mean_reward,std_reward,n_eval_episodes
+exp2,PPO_small,47,-1148.03801645,280.5743556085575,20
+exp2,PPO_large,47,-1132.963023,279.61995799447664,20

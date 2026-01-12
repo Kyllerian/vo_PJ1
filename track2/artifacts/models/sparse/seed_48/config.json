@@ -1,0 +1,11 @@
+{
+  "variant": "sparse",
+  "seed": 48,
+  "total_timesteps": 10000,
+  "learning_rate": 0.001,
+  "gamma": 0.99,
+  "buffer_size": 50000,
+  "batch_size": 64,
+  "exploration_fraction": 0.2,
+  "exploration_final_eps": 0.05
+}
