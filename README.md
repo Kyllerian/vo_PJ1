@@ -73,8 +73,8 @@ python -m pip freeze > pip_freeze.txt
 **Результаты (mean reward по 20 эпизодам):**
 | Вариант | Mean reward | Std | Seed |
 |---|---:|---:|---:|
-| PPO | -1142.73 | n/a | 47 |
-| SAC | -974.11 | n/a | 47 |
+| PPO | -1148.04 | n/a | 47 |
+| SAC | -971.82 | n/a | 47 |
 
 **График:** `track1/artifacts/plots/exp1_learning_curve.png`
 
@@ -83,17 +83,23 @@ python -m pip freeze > pip_freeze.txt
 
 **Контроль:** одинаковые timesteps (10k), один seed (47), одинаковые гиперпараметры PPO.
 
+**Параметры (отчетный прогон):**
+- seed: 47; timesteps: 10k; eval: 20 эпизодов.
+- PPO: lr 3e-4, gamma 0.99, n_envs 4, net_arch [64, 64], batch_size 64.
+- SAC: lr 3e-4, gamma 0.99, n_envs 1, net_arch [64, 64], buffer_size 50k, batch_size 128, train_freq 4, gradient_steps 1, learning_starts 1000.
+- exp2: PPO_small net_arch [64, 64]; PPO_large net_arch [256, 256] (остальные параметры как у PPO).
+
 **Результаты (mean reward по 20 эпизодам):**
 | Вариант | Mean reward | Std | Seed |
 |---|---:|---:|---:|
-| PPO_small | -1142.73 | n/a | 47 |
-| PPO_large | -1120.19 | n/a | 47 |
+| PPO_small | -1148.04 | n/a | 47 |
+| PPO_large | -1132.96 | n/a | 47 |
 
 **График:** `track1/artifacts/plots/exp2_learning_curve.png`
 
 **Видео лучшего агента:** `track1/artifacts/videos/exp2_PPO_large_seed_47.mp4`
 
-**Комментарий:** SAC показывает лучшую среднюю награду на том же бюджете. Увеличение сети PPO даёт небольшое улучшение.
+**Краткий анализ (Трек 1):** SAC показал более высокую среднюю награду, что подтверждает гипотезу про преимущество off-policy при равном бюджете (разница около 176 по mean reward). Увеличение сети PPO дало небольшой прирост, но эффект слабый на 10k шагах. Std не оценивался из-за одного сида, поэтому выводы предварительные. Для более надежных выводов стоит увеличить число сидов и timesteps.
 
 ## Трек 2: GridWorld (кастомная среда)
 **Описание среды:** сетка 4x4, одна яма, цель в правом нижнем углу, `max_steps=30`. Наблюдение: нормированные координаты агента и цели. Два режима награды: `sparse` и `dense` (по delta расстояния до цели).
@@ -102,17 +108,21 @@ python -m pip freeze > pip_freeze.txt
 
 **Контроль:** одинаковые timesteps (30k), один seed (50), одинаковая схема оценки (20 эпизодов).
 
+**Параметры (отчетный прогон):**
+- seed: 50; timesteps: 30k; eval: 20 эпизодов.
+- DQN: lr 1e-3, gamma 0.99, buffer_size 50k, batch_size 64, exploration_fraction 0.2, exploration_final_eps 0.05, train_freq 1, target_update_interval 500, net_arch [64, 64].
+
 **Результаты:**
 | Вариант | Mean reward | Success rate | Mean length | Seed |
 |---|---:|---:|---:|---:|
-| dense | 0.33 | 0.0 | 30.0 | 50 |
+| dense | 1.83 | 1.0 | 6.0 | 50 |
 | sparse | 0.95 | 1.0 | 6.0 | 50 |
 
 **График:** `track2/artifacts/plots/track2_learning_curve.png`
 
-**Видео лучшего агента:** `track2/artifacts/videos/track2_sparse_seed_50.mp4`
+**Видео лучшего агента:** `track2/artifacts/videos/track2_dense_seed_50.mp4`
 
-**Краткий анализ:** гипотеза не подтвердилась — sparse-режим привёл к стабильному достижению цели, а dense-режим за 30k шагов не добрался до успеха. Возможные причины: слишком слабое подкрепление в dense-режиме и недостаточная длительность обучения. Для улучшения можно увеличить timesteps или усилить reward shaping.
+**Краткий анализ:** по итоговой оценке обе версии стабильно достигают цель (success_rate 1.0, mean_length 6.0). Dense дает более высокий mean_reward (1.83 vs 0.95), поэтому гипотеза частично подтверждается по величине награды. Так как использован один сид, выводы ограничены; полезно увеличить timesteps и число сидов или усилить reward shaping.
 
 ## Артефакты
 - `track1/artifacts/logs/` — логи Monitor и TensorBoard
@@ -124,4 +134,6 @@ python -m pip freeze > pip_freeze.txt
 ## Воспроизводимость и допущения
 - Запуски для отчёта выполнялись на CPU; по умолчанию device теперь `cuda`, поэтому при отсутствии GPU используйте `--device cpu`.
 - Бюджет timesteps уменьшен для ускорения (Track1: 10k, Track2: 30k).
+- Отчетные результаты получены при seed=47 (Track1) и seed=50 (Track2); std_reward не рассчитывался из-за одного сида.
 - Полный список пакетов: `pip_freeze.txt`.
+- Полные конфиги с гиперпараметрами: `track1/configs.py` и `track2/configs.py`.
