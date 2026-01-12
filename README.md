@@ -37,7 +37,7 @@ project_root/
 python -m pip install -r requirements.txt
 ```
 
-По умолчанию `--device cuda`. Если CUDA недоступна, добавьте `--device cpu` к командам ниже.
+По умолчанию `--device cuda`. Если CUDA недоступна, используйте `--device cpu` в командах ниже
 
 2) Трек 1 (Pendulum-v1):
 ```
@@ -132,7 +132,6 @@ python -m pip freeze > pip_freeze.txt
 - `track2/artifacts/...` — аналогично для GridWorld
 
 ## Воспроизводимость и допущения
-- Запуски для отчёта выполнялись на CPU; по умолчанию device теперь `cuda`, поэтому при отсутствии GPU используйте `--device cpu`.
 - Бюджет timesteps уменьшен для ускорения (Track1: 10k, Track2: 30k).
 - Отчетные результаты получены при seed=47 (Track1) и seed=50 (Track2); std_reward не рассчитывался из-за одного сида.
 - Полный список пакетов: `pip_freeze.txt`.
